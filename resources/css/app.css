@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+*{
+    box-sizing: border-box;
+}
+:root {
+  --main-color: rgb(35, 91, 247);
+  --primary-color: rgb(35, 91, 247); /* Blue-500 */
+  --p-datatable-row-selected-background: var(--main-color) !important;
+  --p-form-field-focus-ring-color: var(--main-color) !important;
+  --p-highlight-background: var(--main-color) !important;
+  
+}
+
+
+body {
+  background: white ;
+  color: #000;
+}
+.p-select-dropdown .p-select-overlay {
+    background-color: #c7c7d9 !important;
+}
+select{
+    margin:0 !important;
+}
+.p-datatable-column-sorted{
+    /* color:white; */
+    background-color:var(--main-color) !important;
+}
+.p-datatable-column-sorted svg{
+    color:#000;
+}
