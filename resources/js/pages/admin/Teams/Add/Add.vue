@@ -58,7 +58,6 @@ watch(
     }
 );
 const handle = async () => {
-
     try {
         // Ensure required fields are filled
         if (!formData.name.trim()) {

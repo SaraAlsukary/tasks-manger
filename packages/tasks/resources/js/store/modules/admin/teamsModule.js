@@ -37,7 +37,7 @@ export default {
       }
     },
     DELETE_TEAM(state, id) {
-      state.proirities = state.proirities.filter(pro => pro.id !== id)
+      state.teams = state.teams.filter(t => t.id !== id)
     }
   },
   actions: {
@@ -74,7 +74,7 @@ export default {
       commit('SET_LOADING', true)
       try {
         const response = await api.put(`/${id}`, data)
-        commit('UPDATE_TEAM', response.data.user)
+        commit('UPDATE_TEAM', response.data.team)
         commit('SET_ERROR', null)
         return response.data
       } catch (error) {

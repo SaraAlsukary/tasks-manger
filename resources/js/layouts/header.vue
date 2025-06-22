@@ -7,33 +7,41 @@
             <li>
                 <router-link class="nav-item mx-2" :class="{ 'active': isHomeActive | isDashActive }"
                     :to="(user?.role === 'user' && user) ? { name: 'home' } : (user?.role === 'admin' && user) ? { name: 'dashboard' } : { name: 'home' }">
-                    Home
+                    {{ $t('Home') }}
                 </router-link>
             </li>
             <li> <router-link :class="{ 'active': isTasksActive | isTaskAdminActive }" class="nav-item mx-2"
                     :to="(user?.role === 'user' && user) ? { name: 'tasks' } : (user?.role === 'admin' && user) ? { name: 'admin.tasks' } : { name: 'tasks' }">
-                    Tasks
+
+                    {{ $t('Tasks') }}
+
                 </router-link></li>
             <li v-if="(user && user?.role === 'admin')">
                 <router-link :class="{ 'active': isProiritiyActive }" class="nav-item mx-2"
                     :to="{ name: 'admin.proirities' }">
-                    Proirities
+
+                    {{ $t('Proirities') }}
+
                 </router-link>
             </li>
             <li v-if="(user && user?.role === 'admin')">
                 <router-link :class="{ 'active': isMembersActive }" class="nav-item mx-2"
                     :to="{ name: 'admin.members' }">
-                    Members
+
+                    {{ $t('Members') }}
+
                 </router-link>
             </li>
             <li>
                 <router-link :class="{ 'active': isTeamsActive | isTeamAdminActive }" class="nav-item mx-2"
                     :to="(user?.role === 'user' && user) ? { name: 'teams' } : (user?.role === 'admin' && user) ? { name: 'admin.teams' } : { name: 'teams' }">
-                    Teams
+
+                    {{ $t('Teams') }}
+
                 </router-link>
             </li>
             <li>
-                <Select :options="options" />
+                <Select :eventChange="switchLanguage" :options="options" />
             </li>
             <li v-if="isAuth">
                 <router-link :class="{ 'active': isProfileActive }" class="nav-item mx-2" :to="{ name: 'profile' }">
@@ -58,10 +66,15 @@ import Button from '../components/Button/Button.vue'
 import Cookie from 'cookie-universal'
 const cookie = Cookie()
 import Select from '../components/Select/Select.vue'
-// import { ref } from "vue";
-// const selectedData = ref();
-// const data = ref(options);
+import translateMixin from '../mixins/translation'
 export default {
+    mixins: [translateMixin],
+    methods: {
+        switchLanguage(e) {
+            const  lang = e.target.value
+            window.location.href = `/?lang=${lang}`;
+        }
+    },
     data() {
         return {
             options: [

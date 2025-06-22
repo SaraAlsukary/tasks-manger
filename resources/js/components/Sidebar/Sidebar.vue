@@ -100,6 +100,10 @@
     </div>
 </template>
 <style scoped>
+[dir='rtl'] .sidebar,
+[dir="rtl"] #menu{
+    right:0;
+}
 .sidebar {
     position: relative;
     top: 50px;

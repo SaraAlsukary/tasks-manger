@@ -56,7 +56,7 @@
                             class="p-button-rounded p-button-text p-button-sm mr-2  p-button-info"
                             @click="Edit(data.id)" />
                         <Button icon="pi pi-trash" class="p-button-rounded p-button-text p-button-sm p-button-danger"
-                            @click="Delete(data.id)" />
+                            @click="confirmPosition('top',data.id)" />
                     </template>
                 </Column>
                 <!-- Empty message -->
@@ -69,23 +69,24 @@
             <AddDialog :visible="visibleAdd" :closeAdd="closeAdd" />
             <EditDialog :visible="visibleEdit" :closeEdit="closeEdit" :id="selectedId" />
             <ShowDialog :visible="visibleShow" :closeShow="closeShow" :id="selectedId" />
-            <!-- <EditDialog :visisble="visibleEdit" />
-            <ShowDialog :visisble="visibleShow" /> -->
+            <ConfirmDialog group="positioned"></ConfirmDialog>
+
         </div>
     </div>
 </template>
 
 <script setup>
 import { useStore } from 'vuex';
+import { useConfirm } from "primevue/useconfirm";
+import { useToast } from "primevue/usetoast";
 import { ref, onMounted, computed } from 'vue';
 import AddDialog from './Add/Add.vue'
 import EditDialog from './Edit/Edit.vue'
 import ShowDialog from './Show/Show.vue'
-import { Button, DataTable, Column, InputIcon, InputText, IconField, MultiSelect, Tag, } from 'primevue';
+import { Button, DataTable, Column, InputIcon, InputText, IconField,ConfirmDialog } from 'primevue';
 const visibleAdd = ref(false);
 const visibleShow = ref(false);
 const visibleEdit = ref(false);
-const visibleDelete = ref(false);
 const selectedId = ref(0);
 import Cookie from 'cookie-universal';
 
@@ -132,9 +133,15 @@ const Add = () => {
 
 }
 
-const Delete = (id) => {
-    selectedId.value = id
-    visibleDelete.value = true;
+const Delete = async (id) => {
+try {
+    await store.dispatch('team/deleteTeam',id)
+    toast.add({ severity: 'info', summary: 'Confirmed', detail: 'Deleted Successfully!', life: 3000 });
+
+} catch (error) {
+    toast.add({ severity: 'error', summary: 'Failed', detail: error, life: 3000 });
+
+}
 }
 
 const Edit = (id) => {
@@ -146,9 +153,37 @@ const Show = (id) => {
     selectedId.value = id
     visibleShow.value = true;
 }
+
+
+const confirm = useConfirm();
+const toast = useToast();
+
+const confirmPosition = (position, id) => {
+    confirm.require({
+        group: 'positioned',
+        message: 'Are you sure you want to delete?',
+        header: 'Confirmation',
+        icon: 'pi pi-info-circle',
+        position: position,
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            text: true
+        },
+        acceptProps: {
+            label: 'yes',
+            text: true
+        },
+        accept: () => {
+            Delete(id)
+        },
+        reject: () => {
+            toast.add({ severity: 'error', summary: 'Rejected', detail: 'Process incomplete', life: 3000 });
+        }
+    });
+};
 // Cookie setup
 const cookie = Cookie();
-
 
 const selectedRow = ref(null);
 const filters = ref({

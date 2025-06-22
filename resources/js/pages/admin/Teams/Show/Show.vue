@@ -26,11 +26,13 @@
 const props = defineProps({
     closeShow: Function,
     visible: Boolean,
-    id: {
-        type: Number,
-        required: true,
-        validator: value => value > 0
-    }
+    id: Number,
+
+    // id: {
+    //     type: Number,
+    //     required: true,
+    //     validator: value => value > 0
+    // }
 })
 import { computed, ref, watch } from 'vue';
 import { Dialog, Button } from 'primevue';

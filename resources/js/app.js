@@ -5,6 +5,7 @@ import { routes } from '../../packages/tasks/resources/js/router/routes'
 import {store} from '../../packages/tasks/resources/js/store/store'
 import App from './App.vue';// Import theme CSS
 import 'primeicons/primeicons.css';
+import ConfirmationService from 'primevue/confirmationservice';
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/nora';
 import { ToastService } from 'primevue';
@@ -19,6 +20,7 @@ const app = createApp(App)
 app.use(router)
 app.use(store)
 app.use(ToastService)
+app.use(ConfirmationService)
 app.use(PrimeVue,{
     theme: {
         preset:Aura

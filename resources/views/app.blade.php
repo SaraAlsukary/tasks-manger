@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace("_", "-", app()->getLocale()) }}">
+<html lang="{{ str_replace("_", "-", app()->getLocale()) }}" dir="{{ app()->isLocale("ar") ? "rtl" : "ltr" }}">
 
 				<head>
 								<meta charset="utf-8">
@@ -37,7 +37,12 @@
     </head>
     <body>
        <div id="app">
+
 								</div>
+								<script>
+												window.translations = @json(__("messages"));
+												window.currentLocale = '{{ app()->getLocale() }}';
+								</script>
 								</body>
 
 </html>

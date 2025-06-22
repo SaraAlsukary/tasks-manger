@@ -5,6 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\Adminmiddleware;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\SetLocale;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 $middleware->alias([
                 'is_admin'=>Adminmiddleware::class,
                 'is_user'=>Authenticate::class,
+                "locale"=>SetLocale::class
                 ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
