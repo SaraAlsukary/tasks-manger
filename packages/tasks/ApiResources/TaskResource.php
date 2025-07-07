@@ -18,9 +18,9 @@ class TaskResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'title'=>$this->title,
-            'description'=>$this->description,
-            'statue'=>$this->statue,
+            'title' => $this->title[app()->getLocale()] ?? $this->title['en'],
+            'description' => $this->description[app()->getLocale()] ?? $this->description['en'],
+            'statue' => $this->statue[app()->getLocale()] ?? $this->statue['en'],
             'proirity'=>new ProirityResource($this->proirity),
             'team'=>new TeamResource($this->team),
             'member'=>new MemberResource($this->member),

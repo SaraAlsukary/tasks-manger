@@ -23,7 +23,8 @@ class ProirityRequest extends FormRequest
     {
         return [
             //
-            'name'=>['required','max:255']
+            'name'=>['required','max:255','array']
+
         ];
     }
 }

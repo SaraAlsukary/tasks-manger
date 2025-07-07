@@ -16,7 +16,7 @@ class ProirityResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->name,
+            'name' => $this->name[app()->getLocale()] ?? $this->name['en'],
         ];
     }
 }

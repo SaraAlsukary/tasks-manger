@@ -6,7 +6,8 @@ const api = axios.create({
   baseURL: 'http://localhost:8000/api/admin/teams',
     headers: {
         Authorization: `Bearer ${cookie.get('token')}`,
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        'Accept-Language': localStorage.getItem('locale')
   }
 })
 
@@ -14,6 +15,7 @@ export default {
   namespaced: true,
   state: {
     teams: [],
+    team:{},
     loading: false,
     error: null
   },
@@ -26,6 +28,9 @@ export default {
     },
     SET_TEAMS(state, teams) {
       state.teams = teams
+      },
+    SET_TEAM(state, team) {
+        state.team= team
     },
     ADD_TEAM(state, team) {
       state.teams.push(team)
@@ -41,7 +46,7 @@ export default {
     }
   },
   actions: {
-    async fetchTeam({ commit }) {
+    async fetchTeams({ commit }) {
       commit('SET_LOADING', true)
       try {
         const response = await api.get('/')
@@ -53,8 +58,36 @@ export default {
         commit('SET_LOADING', false)
       }
     },
+      async showTeam({ commit }, id) {
+        commit('SET_LOADING', true)
+      try {
+        const response = await api.get(`/${id}`)
+        commit('SET_TEAM', response.data.team)
+        commit('SET_ERROR', null)
+        return response.data
+      } catch (error) {
+        commit('SET_ERROR', error.message || 'Failed to show team')
+        throw error
+      } finally {
+        commit('SET_LOADING', false)
+      }
+    },
 
-  async createTeam({ commit }, data) {
+        async makeManger({ commit }, data) {
+            commit('SET_LOADING', true)
+            try {
+                const response = await api.patch('/', data)
+                commit('ADD_MEMBER', response.data.member)
+                commit('SET_ERROR', null)
+                return response.data
+            } catch (error) {
+                commit('SET_ERROR', error.message || 'Failed to create member')
+                throw error
+            } finally {
+                commit('SET_LOADING', false)
+            }
+        },
+      async createTeam({ commit }, data) {
       commit('SET_LOADING', true)
       try {
           const response = await api.post('/', data)

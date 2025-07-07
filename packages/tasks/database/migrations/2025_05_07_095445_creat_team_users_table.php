@@ -14,8 +14,8 @@ return new class extends Migration
        Schema::create('team_users', function (Blueprint $table) {
        $table->id();
        $table->boolean('is_manger')->default(0);
-       $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-       $table->foreignId('team_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+       $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+       $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete()->cascadeOnUpdate();
        $table->timestamps();
        });
        }

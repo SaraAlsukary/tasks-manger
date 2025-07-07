@@ -42,6 +42,8 @@
 								<script>
 												window.translations = @json(__("messages"));
 												window.currentLocale = '{{ app()->getLocale() }}';
+												const locale = window.currentLocale || 'en';
+												localStorage.setItem('locale',locale)
 								</script>
 								</body>
 

@@ -4,6 +4,7 @@
     <div class="header flex align bg-gray-800 text-white top-0 py-3 flex-wrap justify-around bg-silver">
         <h1 class="text-lg font-semibold">Task app</h1>
         <ul class="flex align  gap-[40px] text-m">
+
             <li>
                 <router-link class="nav-item mx-2" :class="{ 'active': isHomeActive | isDashActive }"
                     :to="(user?.role === 'user' && user) ? { name: 'home' } : (user?.role === 'admin' && user) ? { name: 'dashboard' } : { name: 'home' }">
@@ -71,15 +72,17 @@ export default {
     mixins: [translateMixin],
     methods: {
         switchLanguage(e) {
-            const  lang = e.target.value
-            window.location.href = `/?lang=${lang}`;
+            const lang = e.target.value
+            const path = window.location.pathname
+            window.location.href = `${path}?lang=${lang}`;
         }
     },
     data() {
         return {
             options: [
-                { name: 'English', code: 'en' },
-                { name: 'Arabic', code: 'ar' }
+                { name: this.$t('lang'), code: '' },
+                { name: this.$t('English'), code: 'en' },
+                { name: this.$t('Arabic'), code: 'ar' }
             ]
         };
     },

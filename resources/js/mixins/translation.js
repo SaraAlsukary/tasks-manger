@@ -6,6 +6,7 @@ export default {
     },
     computed: {
         $lang() {
+
             return window.currentLocale || 'en';
         },
         $isRTL() {

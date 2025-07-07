@@ -4,7 +4,9 @@ const cookie = Cookie();
 const api = axios.create({
   baseURL: 'http://localhost:8000/api/admin/tasks',
     headers: {
-      Authorization: `Bearer ${cookie.get('token')}`
+        Authorization: `Bearer ${cookie.get('token')}`,
+        "Content-Type":"application/json",
+        'Accept-Language': localStorage.getItem('locale')
   }
 })
 
@@ -12,6 +14,7 @@ export default {
   namespaced: true,
   state: {
     tasks: [],
+    task:{},
     loading: false,
     error: null
   },
@@ -24,6 +27,9 @@ export default {
     },
     SET_TASKS(state, tasks) {
       state.tasks = tasks
+    },
+    SET_TASK(state, task) {
+        state.task=task
     },
     ADD_TASK(state, task) {
       state.tasks.push(task)
@@ -56,7 +62,7 @@ export default {
       commit('SET_LOADING', true)
       try {
         const response = await api.post('/', data)
-        commit('ADD_TASK', response.data)
+        commit('ADD_TASK', response.data.task)
         commit('SET_ERROR', null)
         return response.data
       } catch (error) {
@@ -76,6 +82,21 @@ export default {
         return response.data
       } catch (error) {
         commit('SET_ERROR', error.message || 'Failed to update data')
+        throw error
+      } finally {
+        commit('SET_LOADING', false)
+      }
+      },
+
+ async showTask({ commit }, id ) {
+      commit('SET_LOADING', true)
+      try {
+        const response = await api.get(`/${id}`, data)
+        commit('SET_TASK', response.data.task)
+        commit('SET_ERROR', null)
+        return response.data
+      } catch (error) {
+        commit('SET_ERROR', error.message || 'Failed to show task')
         throw error
       } finally {
         commit('SET_LOADING', false)

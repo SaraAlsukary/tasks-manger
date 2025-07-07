@@ -42,7 +42,7 @@ class TeamController extends Controller
  {
 
         return response()->json([
-        'team'=> new TeamResource($team),
+        'team'=> $team,
 
         ]);
  }

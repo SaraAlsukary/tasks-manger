@@ -1,13 +1,13 @@
 <template>
     <div class="card flex justify-center">
         <Dialog v-model:visible="localVisible" modal header="Add" :style="{ width: '25rem' }">
-            <div class="flex items-center gap-4 mb-4">
-                <label for="name" class="font-semibold w-24">Name</label>
-                <InputText id="name" class="flex-auto" autocomplete="off" v-model="formData.name" />
+            <div class="items-center gap-4 mb-4">
+                <label for="name" class="block font-semibold w-100">{{ $t('Name') }}</label>
+                <InputText id="name" class="flex-auto w-full my-2" autocomplete="off" v-model="formName.en" />
             </div>
-            <div class="flex items-center gap-4 mb-8">
-                <label for="description" class="font-semibold w-24">Description</label>
-                <InputText id="description" class="flex-auto" v-model="formData.description" autocomplete="off" />
+            <div class=" items-center gap-4 mb-4">
+                <label for="name" class="block font-semibold w-100">{{ $t('NameArabic') }}</label>
+                <InputText id="name" class="flex-auto w-full my-2" autocomplete="off" v-model="formName.ar" />
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancel" severity="secondary" @click="closeAdd"></Button>
@@ -19,8 +19,8 @@
 
 <script setup>
 const props = defineProps({
-    visible: Boolean,
-    closeAdd: Function
+    closeAdd: Function,
+    visible: Boolean
 });
 
 import { Dialog, Button, InputText } from 'primevue';
@@ -31,13 +31,21 @@ import { reactive } from 'vue';
 const toast = useToast()
 const store = useStore()
 
+const formName = reactive({
+    en: '',
+    ar: ""
+})
+
 const formData = reactive({
-    name: '',
-    description: ''
+    name: formName,
 });
 
 const emit = defineEmits(['add:visible']);
 const localVisible = ref(props.visible);
+
+const $t = (key) => {
+    return window.translations?.[key] || key;
+}
 
 watch(
     () => props.visible,
@@ -58,9 +66,10 @@ watch(
     }
 );
 const handle = async () => {
+
     try {
         // Ensure required fields are filled
-        if (!formData.name.trim()) {
+        if (!formData.name) {
             toast.add({
                 severity: 'error',
                 summary: 'Validation Error',
@@ -69,7 +78,7 @@ const handle = async () => {
             });
             return;
         }
-
+        formData.name = formName
         // Dispatch the action with the correct payload
         await store.dispatch('team/createTeam', {
             name: formData.name,
@@ -84,8 +93,9 @@ const handle = async () => {
         });
 
         // Reset form and close dialog
-        formData.name = '';
-        formData.description = '';
+        formData.name = {};
+        formName.ar = ''
+        formName.en = ''
         props.closeAdd()
     } catch (error) {
         toast.add({

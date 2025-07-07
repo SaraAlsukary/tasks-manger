@@ -17,8 +17,8 @@ class TeamResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->name,
-            'description'=>$this->description,
+            'name' => $this->name[app()->getLocale()] ?? $this->name['en'],
+            'description' => $this->description[app()->getLocale()] ?? $this->description['en'],
             'members'=> $this->members,
         ];
     }

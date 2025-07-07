@@ -6,11 +6,11 @@
             <div id="menu"
                 class="bg-gray-900 min-h-screen z-10 text-slate-300 w-64 fixed left-0 h-screen overflow-y-scroll">
                 <div id="logo" class="my-4 px-6">
-                    <h1 class="text-lg md:text-2xl font-bold text-white">Dash<span class="text-blue-500">8</span>.</h1>
-                    <p class="text-slate-500 text-sm">Manage your actions and activities</p>
+                    <h1 class="text-lg md:text-2xl font-bold text-white">{{ $t("Dash") }}<span class="text-blue-500">{{ $t("board") }}</span>.</h1>
+                    <p class="text-slate-500 text-sm">{{ $t('manageActions') }}</p>
                 </div>
                 <div id="profile" class="px-6 py-10">
-                    <p class="text-slate-500">Welcome back,</p>
+                    <p class="text-slate-500">{{ $t('welcomeBack') }}</p>
                     <a href="#" class="inline-flex space-x-2 items-center">
                         <span>
                             <img class="rounded-full w-8 h-8"
@@ -34,8 +34,8 @@
 
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-lg font-bold leading-5 text-white">Dashboard</span>
-                            <span class="text-sm text-white/50 hidden md:block">Data Overview</span>
+                            <span class="text-lg font-bold leading-5 text-white">{{ $t('Dashboard') }}</span>
+                            <span class="text-sm text-white/50 hidden md:block">{{ $t('DataOverview') }}</span>
                         </div>
                     </router-link>
                     <router-link :to="{ name: 'admin.teams' }" :class="{ 'active': isTeamAdminActive }"
@@ -48,8 +48,8 @@
                             </svg>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-lg text-slate-300 font-bold leading-5">Teams</span>
-                            <span class="text-sm text-slate-500 hidden md:block">Teams Manager</span>
+                            <span class="text-lg text-slate-300 font-bold leading-5">{{ $t("Teams") }}</span>
+                            <span class="text-sm text-slate-500 hidden md:block">{{ $t('TeamsManager') }}</span>
                         </div>
                     </router-link>
                     <router-link :to="{ name: 'admin.members' }" :class="{ 'active': isMembersActive }"
@@ -62,8 +62,8 @@
                             </svg>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-lg text-slate-300 font-bold leading-5">Members</span>
-                            <span class="text-sm text-slate-500 hidden md:block">Members Manger</span>
+                            <span class="text-lg text-slate-300 font-bold leading-5">{{ $t('Members') }}</span>
+                            <span class="text-sm text-slate-500 hidden md:block">{{ $t('MemberManger') }}</span>
                         </div>
                     </router-link>
                     <router-link :to="{ name: 'admin.tasks' }" :class="{ 'active': isTaskAdminActive }"
@@ -76,8 +76,8 @@
                             </svg>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-lg text-slate-300 font-bold leading-5">Tasks</span>
-                            <span class="text-sm text-slate-500 hidden md:block">Manage Tasks</span>
+                            <span class="text-lg text-slate-300 font-bold leading-5">{{ $t('Tasks') }}</span>
+                            <span class="text-sm text-slate-500 hidden md:block">{{ $t('ManageTasks') }}</span>
                         </div>
                     </router-link>
                     <router-link :to="{ name: 'admin.proirities' }" :class="{ 'active': isProiritiyActive }"
@@ -90,8 +90,8 @@
                             </svg>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-lg text-slate-300 font-bold leading-5">Proirities</span>
-                            <span class="text-sm text-slate-500 hidden md:block">Manage Proirities</span>
+                            <span class="text-lg text-slate-300 font-bold leading-5">{{ $t('Proirities') }}</span>
+                            <span class="text-sm text-slate-500 hidden md:block">{{ $t('ManageProirities') }}</span>
                         </div>
                     </router-link>
                 </div>
@@ -101,9 +101,10 @@
 </template>
 <style scoped>
 [dir='rtl'] .sidebar,
-[dir="rtl"] #menu{
-    right:0;
+[dir="rtl"] #menu {
+    right: 0;
 }
+
 .sidebar {
     position: relative;
     top: 50px;
@@ -120,7 +121,9 @@ a.active {
 }
 </style>
 <script>
+import translateMixin from '../../mixins/translation'
 export default {
+    mixins: [translateMixin],
     computed: {
         user() {
             return this.$store.getters['auth/currentUser'] || null

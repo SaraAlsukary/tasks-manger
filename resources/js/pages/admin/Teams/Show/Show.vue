@@ -1,8 +1,8 @@
 <template>
     <div class="card flex justify-center">
-        <Dialog v-model:visible="localVisible" modal header="Edit Profile" :style="{ width: '25rem' }">
+        <Dialog v-model:visible="localVisible" modal header="Show" :style="{ width: '25rem' }">
             <template v-if="data">
-                <span class="text-surface-500 dark:text-surface-400 block mb-8">Update</span>
+                <span class="text-surface-500 dark:text-surface-400 block mb-8"></span>
                 <div class="flex items-center gap-4 mb-4">
                     <label for="name" class="font-semibold w-24">Name:</label>
                     <span>{{ data.name }}</span>

@@ -201,7 +201,7 @@ const store = useStore()
 // Lifecycle
 onMounted(async () => {
     try {
-        await store.dispatch('team/fetchTeam');
+        await store.dispatch('team/fetchTeams');
     } catch (error) {
         console.log(error)
     }

@@ -13,12 +13,12 @@ return new class extends Migration
   {
   Schema::create('tasks', function (Blueprint $table) {
   $table->id();
-  $table->string('title');
-  $table->string('description');
-  $table->string('statue');
+  $table->json('title');
+  $table->json('description');
+  $table->json('statue');
   $table->foreignId('proirity_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
   $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-  $table->foreignId('team_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+  $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete()->cascadeOnUpdate();
   $table->timestamps();
   });
   }

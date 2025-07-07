@@ -4,7 +4,10 @@ const cookie = Cookie();
 const api = axios.create({
     baseURL: 'http://localhost:8000/api/admin/proirities',
     headers: {
-      Authorization: `Bearer ${cookie.get('token')}`
+        Authorization: `Bearer ${cookie.get('token')}`,
+        "Content-Type":"application/json",
+        'Accept-Language': localStorage.getItem('locale')
+
   }
 })
 
@@ -12,6 +15,7 @@ export default {
   namespaced: true,
   state: {
     proirities: [],
+    proirity:{},
     loading: false,
     error: null
   },
@@ -24,6 +28,9 @@ export default {
     },
     SET_PROIRITIES(state, proirities) {
       state.proirities = proirities
+      },
+    SET_PROIRITY(state, proirity) {
+      state.proirity = proirity
     },
     ADD_PROIRITY(state, proirity) {
       state.proirities.push(proirity)
@@ -43,7 +50,7 @@ export default {
       commit('SET_LOADING', true)
       try {
         const response = await api.get('/')
-        commit('SET_PROIRITIES', response.data)
+        commit('SET_PROIRITIES', response.data.proirities)
         commit('SET_ERROR', null)
       } catch (error) {
         commit('SET_ERROR', error.message || 'Failed to fetch proirities')
@@ -55,8 +62,8 @@ export default {
   async createProirity({ commit }, data) {
       commit('SET_LOADING', true)
       try {
-        const response = await api.post('/', userData)
-        commit('ADD_PROIRITY', response.data)
+        const response = await api.post('/', data)
+        commit('ADD_PROIRITY', response.data.proirity)
         commit('SET_ERROR', null)
         return response.data
       } catch (error) {
@@ -67,15 +74,30 @@ export default {
       }
       },
 
- async updateProirity({ commit }, { id, userData }) {
+ async updateProirity({ commit }, { id, data }) {
       commit('SET_LOADING', true)
       try {
-        const response = await api.put(`/${id}`, userData)
-        commit('UPDATE_PROIRITY', response.data)
+        const response = await api.put(`/${id}`, data)
+        commit('UPDATE_PROIRITY', response.data.proirity)
         commit('SET_ERROR', null)
         return response.data
       } catch (error) {
         commit('SET_ERROR', error.message || 'Failed to update proirity')
+        throw error
+      } finally {
+        commit('SET_LOADING', false)
+      }
+      },
+
+ async showProirity({ commit }, id) {
+      commit('SET_LOADING', true)
+      try {
+        const response = await api.get(`/${id}`)
+        commit('SET_PROIRITY', response.data.proirity)
+        commit('SET_ERROR', null)
+        return response.data
+      } catch (error) {
+        commit('SET_ERROR', error.message || 'Failed to show proirity')
         throw error
       } finally {
         commit('SET_LOADING', false)
@@ -88,7 +110,7 @@ export default {
         commit('DELETE_PROIRITY', id)
         commit('SET_ERROR', null)
       } catch (error) {
-        commit('SET_ERROR', error.message || 'Failed to delete user')
+        commit('SET_ERROR', error.message || 'Failed to delete proirity')
         throw error
       } finally {
         commit('SET_LOADING', false)

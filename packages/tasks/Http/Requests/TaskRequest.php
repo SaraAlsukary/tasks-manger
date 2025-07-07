@@ -23,9 +23,9 @@ class TaskRequest extends FormRequest
     {
         return [
             //
-            'title'=>['required','max:255'],
-            'description'=>['required'],
-            'statue'=>['required','string'],
+            'title'=>['required','max:255', 'array'],
+            'description'=>['required', 'array'],
+            'statue'=>['required','string', 'array'],
             'proirity_id'=>['required','exists:proirities,id'],
             'team_id'=>['required','exists:teams,id'],
         ];
